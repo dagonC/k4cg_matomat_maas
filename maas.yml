@@ -19,7 +19,6 @@ paths:
       - "drinks"
       summary: "List all available drinks"
       description: ""
-      operationId: "getDrinkList"
       produces:
       - "application/json"
       responses:
@@ -33,13 +32,42 @@ paths:
           description: "Not allowed"
         404:
           description: "No drinks available"
+    post:
+      tags:
+      - "drinks"
+      summary: "Add a new drink"
+      description: "Adds a new drink to matomat. This can only be done by admins."
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "name"
+        in: "body"
+        description: "The name of the drink"
+        required: true
+        type: "string"
+      - name: "cost"
+        in: "body"
+        description: "The number of credits a single consumption of this drink requires"
+        required: true
+        type: "number"
+        format: "float"
+      responses:
+        200:
+          description: "Drink creation succeeded"
+          schema:
+            $ref: "#/definitions/Drink"
+        403:
+          description: "Not allowed"
+        405:
+          description: "Invalid input"
   /drinks/stats:
     get:
       tags:
       - "drinks"
       summary: "Get consumption stats of all drinks"
       description: "Get the matomat stats for all drinks."
-      operationId: "getTotalDrinkStats"
       produces:
       - "application/json"
       responses:
@@ -55,7 +83,6 @@ paths:
       - "drinks"
       summary: "Get a certain drink"
       description: ""
-      operationId: "getDrink"
       produces:
       - "application/json"
       parameters:
@@ -73,13 +100,40 @@ paths:
           description: "Not allowed"
         404:
           description: "Unknown drink"
+    put:
+      tags:
+      - "drinks"
+      summary: "Update drink"
+      description: "This can only be done by admins."
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "drinkid"
+        in: "path"
+        description: "The ID of the drink that needs to be updated"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Updated drink object"
+        required: true
+        schema:
+          $ref: "#/definitions/Drink"
+      responses:
+        400:
+          description: "Invalid drink ID supplied"
+        403:
+          description: "Not allowed"
+        404:
+          description: "Drink not found"
   /drinks/{drinkid}/consume:
     get:
       tags:
       - "drinks"
       summary: "Consumes a drink"
       description: "Consumes a drink and subtracts the cost of the drink from the credit of the user. If not enough credit exists the operation will be rejected"
-      operationId: "consumeDrink"
       produces:
       - "application/json"
       parameters:
@@ -103,7 +157,6 @@ paths:
       - "drinks"
       summary: "Get consumption stats"
       description: "Get the matomat stats for a certain drink."
-      operationId: "getDrinkStats"
       produces:
       - "application/json"
       parameters:
@@ -125,7 +178,6 @@ paths:
       - "users"
       summary: "List all users"
       description: ""
-      operationId: "getUserList"
       produces:
       - "application/json"
       responses:
@@ -168,7 +220,6 @@ paths:
       - "users"
       summary: "Get user by user ID"
       description: ""
-      operationId: "getUserByID"
       produces:
       - "application/json"
       parameters:
@@ -193,7 +244,7 @@ paths:
       - "users"
       summary: "Update user"
       description: "This can only be done by the logged in user."
-      operationId: "updateUser"
+
       consumes:
       - "application/json"
       produces:
@@ -222,7 +273,6 @@ paths:
       - "users"
       summary: "Delete user"
       description: "This can only be done by the logged in user or an admin."
-      operationId: "deleteUser"
       produces:
       - "application/json"
       parameters:
@@ -244,7 +294,6 @@ paths:
       - "users"
       summary: "Set password for user ID"
       description: "Set password for user ID. This can only be done by the logged in user for the user itself OR by the admin for an arbitrary user."
-      operationId: "setPassword"
       consumes:
       - "application/json"
       produces:
@@ -273,7 +322,6 @@ paths:
       - "users"
       summary: "Logs user into the Matomat service."
       description: "Logs user into the Matomat service. TODO add credentials transfer definition (headers?)"
-      operationId: "loginUser"
       produces:
       - "application/json"
       parameters:
@@ -293,7 +341,6 @@ paths:
       - "users"
       summary: "Logs out current logged in user session"
       description: ""
-      operationId: "logoutUser"
       produces:
       - "application/json"
       parameters:
@@ -311,7 +358,6 @@ paths:
       - "users"
       summary: "Transfer credits."
       description: "Transfers credits from logged in user to given user."
-      operationId: "transferCredits"
       consumes:
       - "application/json"
       produces:
@@ -342,7 +388,6 @@ paths:
       - "users"
       summary: "Get matomat stats for user"
       description: "Get the matomat stats for user. A user can only request the stats for herself."
-      operationId: "getUserStats"
       produces:
       - "application/json"
       parameters:
