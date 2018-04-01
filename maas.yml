@@ -38,17 +38,17 @@ paths:
       summary: "Add a new drink"
       description: "Adds a new drink to matomat. This can only be done by admins."
       consumes:
-      - "application/json"
+      - "application/x-www-form-urlencoded"
       produces:
       - "application/json"
       parameters:
       - name: "name"
-        in: "body"
+        in: "formData"
         description: "The name of the drink"
         required: true
         type: "string"
       - name: "cost"
-        in: "body"
+        in: "formData"
         description: "The number of credits a single consumption of this drink requires"
         required: true
         type: "number"
@@ -104,7 +104,7 @@ paths:
       tags:
       - "drinks"
       summary: "Update drink"
-      description: "This can only be done by admins."
+      description: "Update drink. This can only be done by admins."
       consumes:
       - "application/json"
       produces:
@@ -121,6 +121,24 @@ paths:
         required: true
         schema:
           $ref: "#/definitions/Drink"
+      responses:
+        400:
+          description: "Invalid drink ID supplied"
+        403:
+          description: "Not allowed"
+        404:
+          description: "Drink not found"
+    delete:
+      tags:
+      - "drinks"
+      summary: "Delete drink"
+      description: "Delete the drink. This can only be done by admins. (Should only mark a drink as deleted to not loose reference for stats)"
+      parameters:
+      - name: "drinkid"
+        in: "path"
+        description: "The ID of the drink to be deleted"
+        required: true
+        type: "string"
       responses:
         400:
           description: "Invalid drink ID supplied"
@@ -244,7 +262,6 @@ paths:
       - "users"
       summary: "Update user"
       description: "This can only be done by the logged in user."
-
       consumes:
       - "application/json"
       produces:
@@ -295,7 +312,7 @@ paths:
       summary: "Set password for user ID"
       description: "Set password for user ID. This can only be done by the logged in user for the user itself OR by the admin for an arbitrary user."
       consumes:
-      - "application/json"
+      - "application/x-www-form-urlencoded"
       produces:
       - "application/json"
       parameters:
@@ -305,7 +322,7 @@ paths:
         required: true
         type: "string"
       - name: "password"
-        in: "body"
+        in: "formData"
         description: "The new password"
         required: true
         type: "string"
@@ -359,7 +376,7 @@ paths:
       summary: "Transfer credits."
       description: "Transfers credits from logged in user to given user."
       consumes:
-      - "application/json"
+      - "application/x-www-form-urlencoded"
       produces:
       - "application/json"
       parameters:
@@ -370,7 +387,7 @@ paths:
         type: "integer"
         format: "int32"
       - name: "credits"
-        in: "body"
+        in: "formData"
         description: "Amount of credits to transfer"
         required: true
         type: "number"
