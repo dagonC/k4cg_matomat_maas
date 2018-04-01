@@ -33,6 +33,22 @@ paths:
           description: "Not allowed"
         404:
           description: "No drinks available"
+  /drinks/stats:
+    get:
+      tags:
+      - "drinks"
+      summary: "Get consumption stats of all drinks"
+      description: "Get the matomat stats for all drinks."
+      operationId: "getTotalDrinkStats"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation TODO define response"
+        403:
+          description: "Not allowed"
+        404:
+          description: "Drink not found"
   /drinks/{drinkid}:
     get:
       tags:
@@ -81,6 +97,28 @@ paths:
           description: "Unknown drink"  
         412:
           description: "Not enough credits to consume drink"
+  /drinks/{drinkid}/stats:
+    get:
+      tags:
+      - "drinks"
+      summary: "Get consumption stats"
+      description: "Get the matomat stats for a certain drink."
+      operationId: "getDrinkStats"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "drinkid"
+        in: "path"
+        description: "The ID of the drink for which to fetch the stats."
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation TODO define response"
+        403:
+          description: "Not allowed"
+        404:
+          description: "Drink not found"
   /users:
     get:
       tags:
@@ -294,6 +332,28 @@ paths:
       responses:
         400:
           description: "Invalid user ID supplied"
+        403:
+          description: "Not allowed"
+        404:
+          description: "User not found"
+  /users/{userid}/stats:
+    get:
+      tags:
+      - "users"
+      summary: "Get matomat stats for user"
+      description: "Get the matomat stats for user. A user can only request the stats for herself."
+      operationId: "getUserStats"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "userid"
+        in: "path"
+        description: "The ID of the user for which to fetch the stats."
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation TODO define response"
         403:
           description: "Not allowed"
         404:
