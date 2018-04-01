@@ -267,6 +267,37 @@ paths:
       responses:
         default:
           description: "successful operation"
+  /users/{userid}/credits/transfer:
+    put:
+      tags:
+      - "users"
+      summary: "Transfer credits."
+      description: "Transfers credits from logged in user to given user."
+      operationId: "transferCredits"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "userid"
+        in: "path"
+        description: "The ID of the user to transfer credits to."
+        required: true
+        type: "integer"
+        format: "int32"
+      - name: "credits"
+        in: "body"
+        description: "Amount of credits to transfer"
+        required: true
+        type: "number"
+        format: "float"
+      responses:
+        400:
+          description: "Invalid user ID supplied"
+        403:
+          description: "Not allowed"
+        404:
+          description: "User not found"
 definitions:
   User:
     type: "object"
