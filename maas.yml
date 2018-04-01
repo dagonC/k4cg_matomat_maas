@@ -156,6 +156,8 @@ paths:
       summary: "Update user"
       description: "This can only be done by the logged in user."
       operationId: "updateUser"
+      consumes:
+      - "application/json"
       produces:
       - "application/json"
       parameters:
@@ -189,6 +191,35 @@ paths:
       - name: "userid"
         in: "path"
         description: "The ID of the user to be deleted"
+        required: true
+        type: "string"
+      responses:
+        400:
+          description: "Invalid user ID supplied"
+        403:
+          description: "Not allowed"
+        404:
+          description: "User not found"
+  /users/{userid}/password:
+    put:
+      tags:
+      - "users"
+      summary: "Set password for user ID"
+      description: "Set password for user ID. This can only be done by the logged in user for the user itself OR by the admin for an arbitrary user."
+      operationId: "setPassword"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "userid"
+        in: "path"
+        description: "The ID of the user do which the password should be changed."
+        required: true
+        type: "string"
+      - name: "password"
+        in: "body"
+        description: "The new password"
         required: true
         type: "string"
       responses:
@@ -244,8 +275,6 @@ definitions:
         type: "integer"
         format: "int32"
       username:
-        type: "string"
-      password:
         type: "string"
       credits:
         type: "number"
