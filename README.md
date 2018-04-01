@@ -5,7 +5,7 @@ The old matomat code needs to be rewritten.
 - Split the former monolithic concept into a service and a (g)ui layer.
 - Code should be modular enough to swap out and / or add new components (e.g. different auth methods, different ways to "consume" a drink)
 
-## Functional requirements of the service
+## Overall functional requirements
 The new service should provide at least the following functionality:
 
 ### authentication and authorization
@@ -40,6 +40,23 @@ The new service should provide at least the following functionality:
 - track consumed drinks
 - show consumed drinks
 - [send consumption / consumption highlights to mqtt?]
+- show current total credits in system
 
 ## General requirements of GUI MVP
 - Needs to run in "text only" mode on a terminal
+
+
+
+# MaaS Service API Braindump
+Braindump of which functionality from the functionality defined above should be offered by the API.
+
+- user management
+    - *
+
+- drinks
+    - list
+    - consume
+
+- credits
+    - add
+    - show
