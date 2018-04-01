@@ -23,10 +23,10 @@ The new service should provide at least the following functionality:
 - password reset (by admin)
 
 ### credit management
-- add credit
-- use credit
-- show credit
-- [transfer creditt to other user]
+- add credit (for and by user)
+- use credit (by user)
+- show credit (for user)
+- [transfer credit to other user (by user)]
 
 ### drink inventory management
 - add drink(s)
