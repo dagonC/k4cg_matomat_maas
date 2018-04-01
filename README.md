@@ -45,19 +45,3 @@ The new system should at least provide the functionality listed below.
 
 ## General requirements of GUI MVP
 - Needs to run in "text only" mode on a terminal
-
-
-
-# MaaS Service API Braindump
-Braindump of which functionality from the functionality defined above should be offered by the API.
-
-- user management
-    - *
-
-- drinks
-    - list
-    - consume
-
-- credits
-    - add
-    - show
