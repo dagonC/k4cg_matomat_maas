@@ -6,8 +6,12 @@ info:
 host: "maas.k4cg.org"
 basePath: "/v0"
 tags:
-- name: "user"
+- name: "users"
   description: "User management related operations"
+- name: "drinks"
+  description: "Drink related operations"
+- name: "credits"
+  description: "Credits related operations"
 schemes:
 - "https"
 paths:
@@ -23,12 +27,10 @@ paths:
       responses:
         200:
           description: List of drink objects
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/definitions/Drink"
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Drink"
         403:
           description: "Not allowed"
         404:
@@ -57,10 +59,53 @@ paths:
           description: "Not allowed"
         404:
           description: "Unknown drink"
-  /user:
+  /drinks/{drinkid}/consume:
+    get:
+      tags:
+      - "drinks"
+      summary: "Consumes a drink"
+      description: "Consumes a drink and subtracts the cost of the drink from the credit of the user. If not enough credit exists the operation will be rejected"
+      operationId: "consumeDrink"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "drinkid"
+        in: "path"
+        description: "The ID of the drink that should be consumed."
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+        403:
+          description: "Not allowed"
+        404:
+          description: "Unknown drink"  
+        412:
+          description: "Not enough credits to consume drink"
+  /users:
+    get:
+      tags:
+      - "users"
+      summary: "List all users"
+      description: ""
+      operationId: "getUserList"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: List of user objects
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/User"
+        403:
+          description: "Not allowed"
+        404:
+          description: "No drinks available"
     post:
       tags:
-      - "user"
+      - "users"
       summary: "Add a new user"
       description: ""
       consumes:
@@ -81,10 +126,10 @@ paths:
           description: "Not allowed"
         405:
           description: "Invalid input"
-  /user/{userid}:
+  /users/{userid}:
     get:
       tags:
-      - "user"
+      - "users"
       summary: "Get user by user ID"
       description: ""
       operationId: "getUserByID"
@@ -109,17 +154,16 @@ paths:
           description: "User not found"
     put:
       tags:
-      - "user"
+      - "users"
       summary: "Update user"
       description: "This can only be done by the logged in user."
       operationId: "updateUser"
       produces:
-      - "application/xml"
       - "application/json"
       parameters:
-      - name: "username"
+      - name: "userid"
         in: "path"
-        description: "name that need to be updated"
+        description: "The ID of the user that needs to be updated"
         required: true
         type: "string"
       - in: "body"
@@ -137,7 +181,7 @@ paths:
           description: "User not found"
     delete:
       tags:
-      - "user"
+      - "users"
       summary: "Delete user"
       description: "This can only be done by the logged in user or an admin."
       operationId: "deleteUser"
@@ -146,7 +190,7 @@ paths:
       parameters:
       - name: "userid"
         in: "path"
-        description: "The name that needs to be deleted"
+        description: "The ID of the user to be deleted"
         required: true
         type: "string"
       responses:
@@ -156,30 +200,41 @@ paths:
           description: "Not allowed"
         404:
           description: "User not found"
-  /user/login:
+  /users/{userid}/login:
     get:
       tags:
-      - "user"
-      summary: "Logs user into the Matomat service. TODO add credentials transfer definition (headers?)"
-      description: ""
+      - "users"
+      summary: "Logs user into the Matomat service."
+      description: "Logs user into the Matomat service. TODO add credentials transfer definition (headers?)"
       operationId: "loginUser"
       produces:
       - "application/json"
+      parameters:
+      - name: "userid"
+        in: "path"
+        description: "The ID of the user that should be logged in"
+        required: true
+        type: "string"
       responses:
         200:
           description: "successful operation"
         400:
           description: "Invalid username/password supplied"
-  /user/logout:
+  /users/{userid}/logout:
     get:
       tags:
-      - "user"
+      - "users"
       summary: "Logs out current logged in user session"
       description: ""
       operationId: "logoutUser"
       produces:
       - "application/json"
-      parameters: []
+      parameters:
+      - name: "userid"
+        in: "path"
+        description: "The ID of the user that should be logged out"
+        required: true
+        type: "string"
       responses:
         default:
           description: "successful operation"
@@ -189,16 +244,23 @@ definitions:
     properties:
       id:
         type: "integer"
-        format: "int64"
+        format: "int32"
       username:
         type: "string"
       password:
         type: "string"
+      credits:
+        type: "number"
+        format: "float"
   Drink:
+    description: "Represenation of a drink, containing its name and cost (in credits)."
     type: "object"
     properties:
       id:
         type: "integer"
-        format: "int64"
+        format: "int32"
       name:
         type: "string"
+      cost:
+        type: "number"
+        format: "float"

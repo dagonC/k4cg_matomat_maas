@@ -6,7 +6,8 @@ The old matomat code needs to be rewritten.
 - Code should be modular enough to swap out and / or add new components (e.g. different auth methods, different ways to "consume" a drink)
 
 ## Overall functional requirements
-The new service should provide at least the following functionality:
+The new system should at least provide the functionality listed below.
+(At the current point in time no inventorization of drinks is planned. So no need to  e.g. check if enough drinks are available when performing an "consumption" of a drink)
 
 ### authentication and authorization
 - login
