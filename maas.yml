@@ -11,6 +11,52 @@ tags:
 schemes:
 - "https"
 paths:
+  /drinks:
+    get:
+      tags:
+      - "drinks"
+      summary: "List all available drinks"
+      description: ""
+      operationId: "getDrinkList"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: List of drink objects
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/definitions/Drink"
+        403:
+          description: "Not allowed"
+        404:
+          description: "No drinks available"
+  /drinks/{drinkid}:
+    get:
+      tags:
+      - "drinks"
+      summary: "Get a certain drink"
+      description: ""
+      operationId: "getDrink"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "drinkid"
+        in: "path"
+        description: "The ID of the drink that needs to be fetched."
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Drink"
+        403:
+          description: "Not allowed"
+        404:
+          description: "Unknown drink"
   /user:
     post:
       tags:
@@ -147,4 +193,12 @@ definitions:
       username:
         type: "string"
       password:
+        type: "string"
+  Drink:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      name:
         type: "string"
