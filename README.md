@@ -1,3 +1,6 @@
+# PROJECT moved to K4CG
+[https://github.com/k4cg/matomat-service]
+
 # Matomat - Requirements collection
 The old matomat code needs to be rewritten.
 
