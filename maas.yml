@@ -10,8 +10,6 @@ tags:
   description: "User management related operations"
 - name: "drinks"
   description: "Drink related operations"
-- name: "credits"
-  description: "Credits related operations"
 schemes:
 - "https"
 paths:
